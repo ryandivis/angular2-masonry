@@ -4,7 +4,8 @@ import {
     ElementRef,
     forwardRef,
     OnDestroy,
-    AfterViewInit
+    AfterViewInit,
+    Input
 } from '@angular/core';
 
 import { AngularMasonry } from './masonry';
@@ -14,13 +15,19 @@ import { AngularMasonry } from './masonry';
 })
 export class AngularMasonryBrick implements OnDestroy, AfterViewInit {
 
+    @Input() prepend: boolean = false;
+
     constructor(
         private _element: ElementRef,
         @Inject(forwardRef(() => AngularMasonry)) private _parent: AngularMasonry
     ) { }
 
     ngAfterViewInit() {
-        this._parent.add(this._element.nativeElement);
+        if (this.prepend) {
+            this._parent.prepend(this._element.nativeElement);
+        } else {
+            this._parent.add(this._element.nativeElement);
+        }
     }
 
     ngOnDestroy() {

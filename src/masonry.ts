@@ -26,7 +26,7 @@ export class AngularMasonry implements OnInit, OnDestroy {
         private _element: ElementRef
     ) { }
 
-    private _msnry: any;
+    private _msnry = null;
     // private _imagesLoaded = null;
 
     // Inputs
@@ -62,10 +62,11 @@ export class AngularMasonry implements OnInit, OnDestroy {
         // console.log('AngularMasonry:', 'Initialized');
 
         // Bind to events
-        this._msnry.on('layoutComplete', (items: any) => {
+        this._msnry.on('layoutComplete', items => {
+            console.log('this happened');
             this.layoutComplete.emit(items);
         });
-        this._msnry.on('removeComplete', (items: any) => {
+        this._msnry.on('removeComplete', items => {
             this.removeComplete.emit(items);
         });
     }
@@ -86,37 +87,50 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
     // public add(element: HTMLElement, prepend: boolean = false) {
     public add(element: HTMLElement) {
-        
-        var isFirstItem = false;
 
-        // Check if first item
-        if(this._msnry.items.length === 0){
-            isFirstItem = true;
-        }
+        // Tell Masonry that a child element has been added
+        this._msnry.addItems(element);
 
         if (this.useImagesLoaded) {
-            imagesLoaded(element, (instance: any) => {
+            imagesLoaded(element, instance => {
                 this._element.nativeElement.appendChild(element);
-                
-                // Tell Masonry that a child element has been added
-                this._msnry.appended(element);
-
-                // layout if first item
-                if(isFirstItem) this.layout();
+                // Layout items
+                this.layout();
             });
 
+            // this._parent.add(el);
             this._element.nativeElement.removeChild(element);
         }
         else {
-            // Tell Masonry that a child element has been added
-            this._msnry.appended(element);
-
-            // layout if first item
-            if (isFirstItem) this.layout();
+            // Layout items
+            this.layout();
         }
 
         // console.log('AngularMasonry:', 'Brick added');
     }
+
+    public prepend(element: HTMLElement) {
+
+        // Tell Masonry that a child element has been added
+        this._msnry.prepended(element);
+
+        if (this.useImagesLoaded) {
+            imagesLoaded(element, instance => {
+                this._element.nativeElement.prepend(element);
+                // Layout items
+                this.layout();
+            });
+
+            // this._parent.add(el);
+            this._element.nativeElement.removeChild(element);
+        }
+        else {
+            // Layout items
+            this.layout();
+        }
+
+        // console.log('AngularMasonry:', 'Brick added');
+    };
 
     public remove(element: HTMLElement) {
         // Tell Masonry that a child element has been removed
