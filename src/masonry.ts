@@ -63,7 +63,6 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
         // Bind to events
         this._msnry.on('layoutComplete', items => {
-            console.log('this happened');
             this.layoutComplete.emit(items);
         });
         this._msnry.on('removeComplete', items => {
