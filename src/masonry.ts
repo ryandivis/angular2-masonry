@@ -118,6 +118,29 @@ export class AngularMasonry implements OnInit, OnDestroy {
         // console.log('AngularMasonry:', 'Brick added');
     }
 
+    public prepend(element: HTMLElement) {
+
+        // Tell Masonry that a child element has been added
+        this._msnry.prepended(element);
+
+        if (this.useImagesLoaded) {
+            imagesLoaded(element, instance => {
+                this._element.nativeElement.prepend(element);
+                // Layout items
+                this.layout();
+            });
+
+            // this._parent.add(el);
+            this._element.nativeElement.removeChild(element);
+        }
+        else {
+            // Layout items
+            this.layout();
+        }
+
+        // console.log('AngularMasonry:', 'Brick added');
+    };
+
     public remove(element: HTMLElement) {
         // Tell Masonry that a child element has been removed
         this._msnry.remove(element);
