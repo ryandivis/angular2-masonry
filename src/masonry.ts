@@ -59,6 +59,13 @@ export class AngularMasonry implements OnInit, OnDestroy {
         // Initialize Masonry
         this._msnry = new masonry(this._element.nativeElement, this.options);
 
+
+        imagesLoaded(this._element.nativeElement, (instance: any) => {
+
+            setTimeout(() => this.layout(), 100);
+
+        });
+
         // console.log('AngularMasonry:', 'Initialized');
 
         // Bind to events
@@ -86,34 +93,25 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
     // public add(element: HTMLElement, prepend: boolean = false) {
     public add(element: HTMLElement) {
-        
+
         var isFirstItem = false;
 
         // Check if first item
-        if(this._msnry.items.length === 0){
+        if (this._msnry.items.length === 0) {
             isFirstItem = true;
         }
 
+        // Tell Masonry that a child element has been added
+        this._msnry.appended(element);
+
         if (this.useImagesLoaded) {
             imagesLoaded(element, (instance: any) => {
-                this._element.nativeElement.appendChild(element);
-                
-                // Tell Masonry that a child element has been added
-                this._msnry.appended(element);
-
-                // layout if first item
-                if(isFirstItem) this.layout();
+                setTimeout(() => this.layout());
             });
-
-            this._element.nativeElement.removeChild(element);
         }
-        else {
-            // Tell Masonry that a child element has been added
-            this._msnry.appended(element);
 
-            // layout if first item
-            if (isFirstItem) this.layout();
-        }
+        // layout if first item
+        // if (isFirstItem) this.layout();
 
         // console.log('AngularMasonry:', 'Brick added');
     }
