@@ -91,6 +91,15 @@ export class AngularMasonry implements OnInit, OnDestroy {
         // console.log('AngularMasonry:', 'Layout');
     }
 
+    public imagesLoadedLayout() {
+        
+        imagesLoaded(this._element.nativeElement, (instance: any) => {
+
+            setTimeout(() => this.layout(), 100);
+
+        });
+    }
+
     // public add(element: HTMLElement, prepend: boolean = false) {
     public add(element: HTMLElement) {
 
