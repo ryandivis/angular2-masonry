@@ -131,8 +131,8 @@ export class AngularMasonry implements OnInit, OnDestroy {
         this._msnry.prepended(element);
 
         if (this.useImagesLoaded) {
-            imagesLoaded(element, instance => {
-                this._element.nativeElement.prepend(element);
+            imagesLoaded(element, (instance: any) => {
+                this._element.nativeElement.insertBefore(element);
                 // Layout items
                 this.layout();
             });
