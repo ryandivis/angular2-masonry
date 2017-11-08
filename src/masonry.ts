@@ -92,7 +92,7 @@ export class AngularMasonry implements OnInit, OnDestroy {
     }
 
     public imagesLoadedLayout() {
-        
+
         imagesLoaded(this._element.nativeElement, (instance: any) => {
 
             setTimeout(() => this.layout(), 100);
@@ -132,7 +132,7 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
         if (this.useImagesLoaded) {
             imagesLoaded(element, (instance: any) => {
-                this._element.nativeElement.insertBefore(element);
+                this._element.nativeElement.prepend(element);
                 // Layout items
                 this.layout();
             });
